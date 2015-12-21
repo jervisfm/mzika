@@ -3,6 +3,12 @@ package mzika
 // Author: Jervis Muindi
 // Date: December 2015
 
+import (
+	"fmt"
+	"net/http"
+	"strings"
+)
+
 // Caching entity
 type CachedVideoJson struct {
 	// A video ID string, e.g. UScjy1431460
