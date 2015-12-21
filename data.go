@@ -41,9 +41,7 @@ func loadVideoJSON(r *http.Request, vid string) (json string, err error) {
 // Loads given |url| string and returns a |response| with the output. |url| should contain
 // an appropriate protocol (e.g "http://www.msn.com")
 func loadURL(r* http.Request, url string) (response string, err error) {
-	c := appengine.NewContext(r)
-	client := urlfetch.Client(c)
-	resp, err := client.Get(url)
+	resp, err := http.Get(url)
 	if err != nil {
 		return "", fmt.Errorf("Failed to fetch URL: %s. Got Response Code: %s", url, resp.Status)
 	}
