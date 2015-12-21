@@ -3,6 +3,10 @@ package mzika
 // Author: Jervis Muindi
 // Date: December 2015
 
+import (
+	"encoding/xml"
+)
+
 // NOTE: Names of the struct fields *MUST* start with an uppercase Letter so that
 // they are considered "exported" and will be used when de-serializing the JSON
 // messages
