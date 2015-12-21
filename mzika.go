@@ -99,26 +99,6 @@ func GetVideoFromId(r *http.Request, vid string) (output VideoJSON, err error) {
 	return output, err
 }
 
-// Loads json listing of the top Music Videos into go structs |output|
-func loadTopVideoJSONListing(r* http.Request) (output VideoJSONListing, err error) {
-	topVideosUrl := "https://api.vevo.com/mobile/v1/video/list.json?order=mostviewedthisweek&max=200"
-	jsonContent, err := loadURL(r, topVideosUrl)
-	if err != nil {
-		err = fmt.Errorf("%v\n: Failed to fetch topvideoURL JSON", err)
-	}
-	return parseTopVideoJSONListing(jsonContent)
-}
-
-func loadSearchedVideoJSONListing(r* http.Request, searchString string) (output VideoJSONListing, err error) {
-	searchStringUrlEncoded := url.QueryEscape(searchString)
-	searchUrlTemplate := "http://api.vevo.com/mobile/v1/search/videos.json?q=%s&max=30"
-	url := fmt.Sprintf(searchUrlTemplate, searchStringUrlEncoded)
-	jsonContent, _ := loadURL(r, url)
-	if err != nil {
-		err = fmt.Errorf("%v\n: Failed to fetch Searched JSON Url", err)
-	}
-	return parseTopVideoJSONListing(jsonContent)
-}
 
 
 // JSON Listing for top videos and searched videos
