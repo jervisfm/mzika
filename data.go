@@ -3,6 +3,12 @@ package mzika
 // Author: Jervis Muindi
 // Date: December 2015
 
+import (
+	"fmt"
+	"net/http"
+	"net/url"
+)
+
 // Loads json listing of the top Music Videos into go structs |output|
 func loadTopVideoJSONListing(r *http.Request) (output VideoJSONListing, err error) {
 	topVideosUrl := "https://api.vevo.com/mobile/v1/video/list.json?order=mostviewedthisweek&max=200"
