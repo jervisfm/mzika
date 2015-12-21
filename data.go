@@ -5,6 +5,7 @@ package mzika
 
 import (
 	"fmt"
+	"encoding/xml"
 	"net/http"
 	"net/url"
 	"io/ioutil"

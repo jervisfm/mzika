@@ -4,10 +4,14 @@ package mzika
 // Date: December 2015
 
 import (
+	"html/template"
 	"fmt"
 	"net/http"
 	"strings"
 )
+
+// Add templates/* to search path.
+var tpl = template.Must(template.ParseGlob("templates/*.html"))
 
 // Parses given Http Request |r| along with VideoJson object |videoJson|
 // and returns a URL to an image thumbnail of the video. HTTP Request |r|
@@ -134,7 +138,6 @@ func GetVideoRedirectUrl(input VideoJSON) (output string, err error) {
 
 // Renders the Home page which lists the current most popular videos.
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {
-	c := appengine.NewContext(r)
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	videoListing, err := loadTopVideoJSONListing(r)
 
@@ -143,14 +146,13 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tpl.ExecuteTemplate(w, "index.html", videoListing); err != nil {
-		c.Errorf("%v", err)
+		fmt.Errorf("%v", err)
 	}
 }
 
 // Renders the Home page which lists the current most popular videos.
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	searchQuery := r.FormValue("q")
-	c := appengine.NewContext(r)
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	videoListing, err := loadSearchedVideoJSONListing(r, searchQuery)
 
@@ -163,6 +165,6 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		SearchQuery string
 	}{videoListing, searchQuery}
 	if err := tpl.ExecuteTemplate(w, "search.html", data); err != nil {
-		c.Errorf("%v", err)
+		fmt.Errorf("%v", err)
 	}
 }
