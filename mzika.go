@@ -4,8 +4,8 @@ package mzika
 // Date: December 2015
 
 import (
-	"html/template"
 	"fmt"
+	"html/template"
 	"net/http"
 	"strings"
 )

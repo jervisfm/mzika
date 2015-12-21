@@ -4,12 +4,12 @@ package mzika
 // Date: December 2015
 
 import (
-	"fmt"
+	"encoding/json"
 	"encoding/xml"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
-	"io/ioutil"
-	"encoding/json"
 )
 
 // Loads json listing of the top Music Videos into go structs |output|
@@ -43,7 +43,7 @@ func loadVideoJSON(r *http.Request, vid string) (json string, err error) {
 
 // Loads given |url| string and returns a |response| with the output. |url| should contain
 // an appropriate protocol (e.g "http://www.msn.com")
-func loadURL(r* http.Request, url string) (response string, err error) {
+func loadURL(r *http.Request, url string) (response string, err error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		return "", fmt.Errorf("Failed to fetch URL: %s. Got Response Code: %s", url, resp.Status)
@@ -63,7 +63,6 @@ func parseTopVideoJSONListing(input string) (output VideoJSONListing, err error)
 	}
 	return m, err
 }
-
 
 // Attempts to decode given |input| JSON string into a VideoJSON go struct.
 func DecodeVideoJSON(input string) (output VideoJSON, err error) {
