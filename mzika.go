@@ -99,18 +99,6 @@ func GetVideoFromId(r *http.Request, vid string) (output VideoJSON, err error) {
 	return output, err
 }
 
-
-
-// JSON Listing for top videos and searched videos
-type VideoJSONListing struct {
-	Success bool
-    Result []struct {
-      Isrc string
-	  Title string
-	  Image_url string
-	}
-}
-
 func parseTopVideoJSONListing(input string) (output VideoJSONListing, err error) {
 	var m VideoJSONListing
 	err = json.Unmarshal([]byte(input), &m)

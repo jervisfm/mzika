@@ -58,3 +58,13 @@ type Renditions struct {
 	Rendition []Rendition `xml:"rendition"`
 }
 
+
+// JSON Listing for top videos and searched videos
+type VideoJSONListing struct {
+	Success bool
+    Result []struct {
+      Isrc string
+	  Title string
+	  Image_url string
+	}
+}
