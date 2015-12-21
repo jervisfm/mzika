@@ -11,15 +11,14 @@ type CachedVideoJson struct {
 	Response VideoJSON
 }
 
- 
 // Takes given VideoJSON |input| and saves it into our datastore
 // using the key |cachekey|. This is so that the response can quickly
 // be looked up in the future. |r| is the Http request for the current session.
-func CacheVideoJsonResponse(r *http.Request, input VideoJSON, cacheKey string) (err error){
+func CacheVideoJsonResponse(r *http.Request, input VideoJSON, cacheKey string) (err error) {
 	c := appengine.NewContext(r)
 	cacheKey = strings.ToLower(cacheKey)
-	cachedData := CachedVideoJson {
-		VideoId: cacheKey,
+	cachedData := CachedVideoJson{
+		VideoId:  cacheKey,
 		Response: input,
 	}
 

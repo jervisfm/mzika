@@ -4,7 +4,7 @@ package mzika
 // Date: December 2015
 
 // Loads json listing of the top Music Videos into go structs |output|
-func loadTopVideoJSONListing(r* http.Request) (output VideoJSONListing, err error) {
+func loadTopVideoJSONListing(r *http.Request) (output VideoJSONListing, err error) {
 	topVideosUrl := "https://api.vevo.com/mobile/v1/video/list.json?order=mostviewedthisweek&max=200"
 	jsonContent, err := loadURL(r, topVideosUrl)
 	if err != nil {
@@ -13,7 +13,7 @@ func loadTopVideoJSONListing(r* http.Request) (output VideoJSONListing, err erro
 	return parseTopVideoJSONListing(jsonContent)
 }
 
-func loadSearchedVideoJSONListing(r* http.Request, searchString string) (output VideoJSONListing, err error) {
+func loadSearchedVideoJSONListing(r *http.Request, searchString string) (output VideoJSONListing, err error) {
 	searchStringUrlEncoded := url.QueryEscape(searchString)
 	searchUrlTemplate := "http://api.vevo.com/mobile/v1/search/videos.json?q=%s&max=30"
 	url := fmt.Sprintf(searchUrlTemplate, searchStringUrlEncoded)
@@ -26,8 +26,8 @@ func loadSearchedVideoJSONListing(r* http.Request, searchString string) (output 
 
 // Takes given |vid| video identifier string and retrieves the JSON metadata associated with
 // the specific video into |json|.
-func loadVideoJSON(r* http.Request, vid string) (json string, err error) {
+func loadVideoJSON(r *http.Request, vid string) (json string, err error) {
 	videoJsonURLTemplate := "http://videoplayer.vevo.com/VideoService/AuthenticateVideo?isrc=%s"
 	url := fmt.Sprintf(videoJsonURLTemplate, vid)
-    return loadURL(r, url)
+	return loadURL(r, url)
 }

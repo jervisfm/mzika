@@ -5,14 +5,14 @@ package mzika
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"html/template"
 	"io/ioutil"
 	"net/http"
-	"time"
-	"encoding/xml"
-	"strings"
 	"net/url"
+	"strings"
+	"time"
 )
 
 // Parses given Http Request |r| along with VideoJson object |videoJson|
@@ -36,7 +36,7 @@ func GetImageUrl(r *http.Request, videoJson VideoJSON) string {
 		}
 		url += fmt.Sprintf("height=%s", height)
 	}
-    return url
+	return url
 }
 
 func VideoHandler(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +64,7 @@ func GetVideoFromId(r *http.Request, vid string) (output VideoJSON, err error) {
 	vid = strings.ToLower(vid)
 	cacheHit, cacheResponse, err := GetCachedVideoResponse(r, vid)
 	if err == nil {
-		if (cacheHit) {
+		if cacheHit {
 			output = *cacheResponse
 			err = nil
 			return
@@ -111,11 +111,11 @@ func GetVideoRedirectUrl(input VideoJSON) (output string, err error) {
 		if err != nil {
 			continue
 		}
-		for _,rendition := range renditions.Rendition {
+		for _, rendition := range renditions.Rendition {
 			videoQuality := rendition.Name
 			url := rendition.Url
 			// Only interested in High Quality URLs of Mp4 videos
-			if videoQuality == "High" && strings.Contains(url, ".mp4"){
+			if videoQuality == "High" && strings.Contains(url, ".mp4") {
 				// And Further Limit to Amazon/Level3 Hosted URLs.
 				const level3 = "lvl3"
 				const amazon = "aws"
@@ -136,7 +136,7 @@ func GetVideoRedirectUrl(input VideoJSON) (output string, err error) {
 		return *level3VideoUrl, nil
 	}
 	return kDefaultRedirect,
-	       fmt.Errorf("Failed to find a suitable HighQuality Amazon/Lvl3 based video URL for Video %s", input)
+		fmt.Errorf("Failed to find a suitable HighQuality Amazon/Lvl3 based video URL for Video %s", input)
 }
 
 // Renders the Home page which lists the current most popular videos.
@@ -165,10 +165,10 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
-    data := struct {
-      Listing VideoJSONListing
-	  SearchQuery string
-	} { videoListing, searchQuery }
+	data := struct {
+		Listing     VideoJSONListing
+		SearchQuery string
+	}{videoListing, searchQuery}
 	if err := tpl.ExecuteTemplate(w, "search.html", data); err != nil {
 		c.Errorf("%v", err)
 	}
