@@ -4,7 +4,6 @@ package mzika
 // Date: December 2015
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 )
@@ -17,7 +16,7 @@ type CachedVideoJson struct {
 	Response VideoJSON
 }
 
-cacheStore := map[string][CachedVideoJson]
+var cacheStore map[string]CachedVideoJson
 
 // Takes given VideoJSON |input| and saves it into our in-memory datastore
 // using the key |cachekey|. This is so that the response can quickly
@@ -30,7 +29,7 @@ func CacheVideoJsonResponse(r *http.Request, input VideoJSON, cacheKey string) (
 	}
 
 	// Try to determine if cache entry already exists
-	cachedValue, ok = cacheStore[cacheKey]
+	cachedData, ok := cacheStore[cacheKey]
 	if !ok {
 		// Cache entry does not exist, so we should store it.
 		cacheStore[cacheKey] = cachedData
@@ -43,10 +42,10 @@ func CacheVideoJsonResponse(r *http.Request, input VideoJSON, cacheKey string) (
 // response was found.
 func GetCachedVideoResponse(r *http.Request, videoid string) (found bool, response *VideoJSON, err error) {
 	cacheKey := videoid
-	cachedValue, ok = cacheStore[cacheKey]
+	cachedData, ok := cacheStore[cacheKey]
 	if ok {
 		// Cached response found
-		return true, &cachedValue, nil
+		return true, &cachedData.Response, nil
 	} else {
 		// No cached video response found.
 		return false, nil, err
