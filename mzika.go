@@ -4,15 +4,9 @@ package mzika
 // Date: December 2015
 
 import (
-	"encoding/json"
-	"encoding/xml"
 	"fmt"
-	"html/template"
-	"io/ioutil"
 	"net/http"
-	"net/url"
 	"strings"
-	"time"
 )
 
 // Parses given Http Request |r| along with VideoJson object |videoJson|
