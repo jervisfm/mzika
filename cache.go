@@ -17,23 +17,23 @@ type CachedVideoJson struct {
 	Response VideoJSON
 }
 
-// Takes given VideoJSON |input| and saves it into our datastore
+cacheStore := map[string][CachedVideoJson]
+
+// Takes given VideoJSON |input| and saves it into our in-memory datastore
 // using the key |cachekey|. This is so that the response can quickly
 // be looked up in the future. |r| is the Http request for the current session.
 func CacheVideoJsonResponse(r *http.Request, input VideoJSON, cacheKey string) (err error) {
-	c := appengine.NewContext(r)
 	cacheKey = strings.ToLower(cacheKey)
 	cachedData := CachedVideoJson{
 		VideoId:  cacheKey,
 		Response: input,
 	}
 
-	// Specific a full custom key so that we don't try re-insert entries
-	// we've already cached.
-	key := datastore.NewKey(c, kTableNameCachedVideo, cacheKey, 0, nil)
-	_, err = datastore.Put(c, key, &cachedData)
-	if err != nil {
-		return fmt.Errorf("Error:%v\n.Failed to save response of video: '%v' into cache.", err, cacheKey)
+	// Try to determine if cache entry already exists
+	cachedValue, ok = cacheStore[cacheKey]
+	if !ok {
+		// Cache entry does not exist, so we should store it.
+		cacheStore[cacheKey] = cachedData
 	}
 	return nil
 }
