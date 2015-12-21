@@ -33,8 +33,7 @@ func GetImageUrl(r *http.Request, videoJson VideoJSON) string {
 	return url
 }
 
-func VideoHandler(w http.ResponseWriter, r *http.Request) {
-	vid := mux.Vars(r)[kVideoId]
+func VideoHandler(w http.ResponseWriter, r *http.Request, vid string) {
 	v, err := GetVideoFromId(r, vid)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
