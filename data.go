@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"io/ioutil"
+	"encoding/json"
 )
 
 // Loads json listing of the top Music Videos into go structs |output|
