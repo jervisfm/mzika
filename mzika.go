@@ -1,4 +1,4 @@
-package videoapp
+package mzika
 
 // Author: Jervis Muindi
 // Date: December 2015
