@@ -62,3 +62,23 @@ func parseTopVideoJSONListing(input string) (output VideoJSONListing, err error)
 	}
 	return m, err
 }
+
+
+// Attempts to decode given |input| JSON string into a VideoJSON go struct.
+func DecodeVideoJSON(input string) (output VideoJSON, err error) {
+	var m VideoJSON
+	err = json.Unmarshal([]byte(input), &m)
+	if err != nil {
+		return m, fmt.Errorf("Failed to Decode Json: %s. \n==Error:'%s'", input, err)
+	}
+	return m, err
+}
+
+// Attempts to decode given |input| XML string into a Renditions go struct type.
+func DecodeVideoRendition(input string) (output Renditions, err error) {
+	err = xml.Unmarshal([]byte(input), &output)
+	if err != nil {
+		return output, fmt.Errorf("Failed to Decode XML: %s. \n==Error:'%s'", input, err)
+	}
+	return output, err
+}
