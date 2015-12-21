@@ -99,58 +99,6 @@ func GetVideoFromId(r *http.Request, vid string) (output VideoJSON, err error) {
 	return output, err
 }
 
-func parseTopVideoJSONListing(input string) (output VideoJSONListing, err error) {
-	var m VideoJSONListing
-	err = json.Unmarshal([]byte(input), &m)
-	if err != nil {
-		return m, fmt.Errorf("Failed to Decode Json: %s. \n==Error:'%s'", input, err)
-	}
-	return m, err
-}
-
-// Takes given |vid| video identifier string and retrieves the JSON metadata associated with
-// the specific video into |json|.
-func loadVideoJSON(r* http.Request, vid string) (json string, err error) {
-	videoJsonURLTemplate := "http://videoplayer.vevo.com/VideoService/AuthenticateVideo?isrc=%s"
-	url := fmt.Sprintf(videoJsonURLTemplate, vid)
-    return loadURL(r, url)
-}
-
-// Loads given |url| string and returns a |response| with the output. |url| should contain
-// an appropriate protocol (e.g "http://www.msn.com")
-func loadURL(r* http.Request, url string) (response string, err error) {
-	c := appengine.NewContext(r)
-	client := urlfetch.Client(c)
-	resp, err := client.Get(url)
-	if err != nil {
-		return "", fmt.Errorf("Failed to fetch URL: %s. Got Response Code: %s", url, resp.Status)
-	}
- 	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", fmt.Errorf("Failed to Read All Data from URL: %s. Got Response Code: %s", url, resp.Status)
-	}
-	return string(body), err
-}
-
-// Attempts to decode given |input| JSON string into a VideoJSON go struct.
-func DecodeVideoJSON(input string) (output VideoJSON, err error) {
-	var m VideoJSON
-	err = json.Unmarshal([]byte(input), &m)
-	if err != nil {
-		return m, fmt.Errorf("Failed to Decode Json: %s. \n==Error:'%s'", input, err)
-	}
-	return m, err
-}
-
-// Attempts to decode given |input| XML string into a Renditions go struct type.
-func DecodeVideoRendition(input string) (output Renditions, err error) {
-	err = xml.Unmarshal([]byte(input), &output)
-	if err != nil {
-		return output, fmt.Errorf("Failed to Decode XML: %s. \n==Error:'%s'", input, err)
-	}
-	return output, err
-}
-
 // Attempts to parse given |input| of a VideoJSON struct
 // and extract out a viable URL from which the video can be watched. By default, we try to
 // pick the highest available MP4 stream from either AWS or LVL3 (Level3).
