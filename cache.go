@@ -42,18 +42,11 @@ func CacheVideoJsonResponse(r *http.Request, input VideoJSON, cacheKey string) (
 // be the primary key we use to store the cached responses. Returns true iff a valid
 // response was found.
 func GetCachedVideoResponse(r *http.Request, videoid string) (found bool, response *VideoJSON, err error) {
-	c := appengine.NewContext(r)
-	q := datastore.NewQuery(kTableNameCachedVideo).Filter("VideoId=", videoid)
-	// Make a array slice that's initially empty but has capacity 5.
-	videos := make([]CachedVideoJson, 0, 5)
-	if _, e := q.GetAll(c, &videos); e != nil {
-		// failed to execute query
-		err = fmt.Errorf("Error:%v\nFailed to retrieve cached response from datastore", e)
-		return false, nil, err
-	}
-	if len(videos) > 0 {
-		// Found at least a viable cached video response
-		return true, &videos[0].Response, nil
+	cacheKey := videoid
+	cachedValue, ok = cacheStore[cacheKey]
+	if ok {
+		// Cached response found
+		return true, &cachedValue, nil
 	} else {
 		// No cached video response found.
 		return false, nil, err
