@@ -37,3 +37,28 @@ func loadVideoJSON(r *http.Request, vid string) (json string, err error) {
 	url := fmt.Sprintf(videoJsonURLTemplate, vid)
 	return loadURL(r, url)
 }
+
+// Loads given |url| string and returns a |response| with the output. |url| should contain
+// an appropriate protocol (e.g "http://www.msn.com")
+func loadURL(r* http.Request, url string) (response string, err error) {
+	c := appengine.NewContext(r)
+	client := urlfetch.Client(c)
+	resp, err := client.Get(url)
+	if err != nil {
+		return "", fmt.Errorf("Failed to fetch URL: %s. Got Response Code: %s", url, resp.Status)
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("Failed to Read All Data from URL: %s. Got Response Code: %s", url, resp.Status)
+	}
+	return string(body), err
+}
+
+func parseTopVideoJSONListing(input string) (output VideoJSONListing, err error) {
+	var m VideoJSONListing
+	err = json.Unmarshal([]byte(input), &m)
+	if err != nil {
+		return m, fmt.Errorf("Failed to Decode Json: %s. \n==Error:'%s'", input, err)
+	}
+	return m, err
+}
