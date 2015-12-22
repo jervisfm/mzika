@@ -5,17 +5,26 @@
 package main
 import (
 	"fmt"
-	"github.com/gopherjs/gopherjs/js"
+	//"github.com/gopherjs/gopherjs/js"
 	"github.com/jervisfm/mzika"
 )
 
 func main() {
 	// Specify the method that we want to make available to Javascript
-	js.Global.Set("mzika", map[string]interface{} {
+	/*js.Global.Set("mzika", map[string]interface{} {
 		"decodeVideoJson": mzika.DecodeVideoJSON,
 		"getVideoUrl" : mzika.GetVideoUrl,
 		"getVideoFromId" : mzika.GetVideoFromId,
-	})
+	})*/
 	fmt.Println("Hello, playground")
+
+	vid := "uscmv1500002"
+	url, err := mzika.GetVideoUrl(vid)
+	if err != nil {
+		println("Failure!", err)
+		return
+	}
+	fmt.Println(url)
+	
 	//println("Hello, JS console")
 }

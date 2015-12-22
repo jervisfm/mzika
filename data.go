@@ -46,8 +46,11 @@ func loadVideoJSON(vid string) (json string, err error) {
 func loadURL(url string) (response string, err error) {
 	resp, err := http.Get(url)
 	if err != nil {
-		return "", fmt.Errorf("Failed to fetch URL: %s. Got Response Code: %s", url, resp.Status)
+		println("Response is: ", resp)
+		//return "", fmt.Errorf("Failed to fetch URL: %s. Got Response Code: %s")
+		return "", fmt.Errorf("Failed to fetch URL: %s. Got Response : %s", url, resp)
 	}
+	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return "", fmt.Errorf("Failed to Read All Data from URL: %s. Got Response Code: %s", url, resp.Status)

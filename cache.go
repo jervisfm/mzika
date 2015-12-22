@@ -17,6 +17,14 @@ type CachedVideoJson struct {
 
 var cacheStore map[string]CachedVideoJson
 
+// Initialized the cache store to a non-nil value. If already initialized
+// then this is a no-op and has no effect.
+func initializeCacheStore() {
+	if cacheStore == nil {
+		cacheStore = make(map[string]CachedVideoJson)
+	}
+}
+
 // Takes given VideoJSON |input| and saves it into our in-memory datastore
 // using the key |cachekey|. This is so that the response can quickly
 // be looked up in the future. |r| is the Http request for the current session.
@@ -31,6 +39,7 @@ func CacheVideoJsonResponse(input VideoJSON, cacheKey string) (err error) {
 	cachedData, ok := cacheStore[cacheKey]
 	if !ok {
 		// Cache entry does not exist, so we should store it.
+		initializeCacheStore()
 		cacheStore[cacheKey] = cachedData
 	}
 	return nil
@@ -41,6 +50,8 @@ func CacheVideoJsonResponse(input VideoJSON, cacheKey string) (err error) {
 // response was found.
 func GetCachedVideoResponse(videoid string) (found bool, response *VideoJSON, err error) {
 	cacheKey := videoid
+	// Note: In Go, it's OK to read from a nil map. It's the task of
+	// writing to it that's problematic and causes a panic.
 	cachedData, ok := cacheStore[cacheKey]
 	if ok {
 		// Cached response found
