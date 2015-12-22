@@ -4,7 +4,6 @@ package mzika
 // Date: December 2015
 
 import (
-	"net/http"
 	"strings"
 )
 
@@ -21,7 +20,7 @@ var cacheStore map[string]CachedVideoJson
 // Takes given VideoJSON |input| and saves it into our in-memory datastore
 // using the key |cachekey|. This is so that the response can quickly
 // be looked up in the future. |r| is the Http request for the current session.
-func CacheVideoJsonResponse(r *http.Request, input VideoJSON, cacheKey string) (err error) {
+func CacheVideoJsonResponse(input VideoJSON, cacheKey string) (err error) {
 	cacheKey = strings.ToLower(cacheKey)
 	cachedData := CachedVideoJson{
 		VideoId:  cacheKey,
@@ -40,7 +39,7 @@ func CacheVideoJsonResponse(r *http.Request, input VideoJSON, cacheKey string) (
 // Attempts to find a cached response given |videoid|. Note that |videoid| should
 // be the primary key we use to store the cached responses. Returns true iff a valid
 // response was found.
-func GetCachedVideoResponse(r *http.Request, videoid string) (found bool, response *VideoJSON, err error) {
+func GetCachedVideoResponse(videoid string) (found bool, response *VideoJSON, err error) {
 	cacheKey := videoid
 	cachedData, ok := cacheStore[cacheKey]
 	if ok {

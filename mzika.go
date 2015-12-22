@@ -34,29 +34,30 @@ func GetImageUrl(width, height int, videoJson VideoJSON) string {
 	return url
 }
 
-func VideoHandler(w http.ResponseWriter, r *http.Request, vid string) {
-	v, err := GetVideoFromId(r, vid)
+// Returns a video url to watch a video with given |vid|. |vid| is a
+// video Id that looks like "uscmv1500002".
+func GetVideoUrl(vid string) (url string, err error) {
+	v, err := GetVideoFromId(vid)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		fmt.Errorf("Failed to retrieve video %v. Error: %v", vid, err.Error())
 		return
 	}
 
-	// Look for and Pick a viable redirect URL.
-	url, err := GetVideoRedirectUrl(v)
+	// Look for and Pick a viable URL to watch the video.
+	url, err = GetVideoRedirectUrl(v)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		fmt.Errorf("Failed to find watchable video url for vid %v. Error: %v", vid, err.Error())
+		return
 	}
-
-	// Perform the Redirect
-	http.Redirect(w, r, url, http.StatusMovedPermanently)
+	return url,nil
 }
 
 // Takes given |vid| Video identifier and converts it into a VideoJSON struct containing
 // appropriate metadata for the specific video.
-func GetVideoFromId(r *http.Request, vid string) (output VideoJSON, err error) {
+func GetVideoFromId(vid string) (output VideoJSON, err error) {
 	// Try to get data from data store cache
 	vid = strings.ToLower(vid)
-	cacheHit, cacheResponse, err := GetCachedVideoResponse(r, vid)
+	cacheHit, cacheResponse, err := GetCachedVideoResponse(vid)
 	if err == nil {
 		if cacheHit {
 			output = *cacheResponse
@@ -85,7 +86,7 @@ func GetVideoFromId(r *http.Request, vid string) (output VideoJSON, err error) {
 	output, err = DecodeVideoJSON(resp)
 	// Cache the response so future looks are faster and avoid
 	// network requests.
-	cacheSaveError := CacheVideoJsonResponse(r, output, vid)
+	cacheSaveError := CacheVideoJsonResponse(output, vid)
 	// Only take note of cache save error but don't do anything else.
 	if cacheSaveError != nil {
 		fmt.Printf(">> Error:%v\nOops, failed to save cached response for video: '%s'", cacheSaveError, vid)
