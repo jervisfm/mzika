@@ -12,6 +12,7 @@ import (
 // We wrap the exported calls to JS in go-routine so that 
 // we avoid blocking. Output is returned via callback.
 
+// Returns a URL at which given video can be watched.
 func GetVideoUrl(vid string, callback* js.Object) {
 	go func() { 
 		url, err := mzika.GetVideoUrl(vid)
@@ -21,6 +22,8 @@ func GetVideoUrl(vid string, callback* js.Object) {
 	}()
 }
 
+// Returns a video struct containing information about supplied
+// video.
 func GetVideoFromId(vid string, callback* js.Object) {
 	go func() {
 		video_struct, err := mzika.GetVideoFromId(vid)
@@ -30,20 +33,12 @@ func GetVideoFromId(vid string, callback* js.Object) {
 	}()
 }
 
+// Decodes VideoJSON string into a video struct.
 func DecodeVideoJSON(input string, callback* js.Object) {
 	go func() {
 		video_struct, err := mzika.DecodeVideoJSON(input)
 		if callback != nil {
 			callback.Invoke(video_struct, err)
-		}
-	}()
-}
-
-func GetVideoRedirectUrl(input mzika.VideoJSON, callback* js.Object) {
-	go func() {
-		url, err := mzika.GetVideoRedirectUrl(input)
-		if callback != nil {
-			callback.Invoke(url, err)
 		}
 	}()
 }
@@ -56,11 +51,9 @@ func main() {
 		"decodeVideoJsonSync": mzika.DecodeVideoJSON,
 
 		"getVideoUrl" : GetVideoUrl,
+
 		"getVideoFromId" : GetVideoFromId,
 
-		// Added a sync version since no blocking i/o should be involved.
-		"getVideoRedirectUrl" : GetVideoRedirectUrl,
-		"getVideoRedirectUrlSync" : mzika.GetVideoRedirectUrl,
 		
 	})
 	fmt.Println("Hello, playground")
