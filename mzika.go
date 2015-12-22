@@ -13,22 +13,19 @@ import (
 // Add templates/* to search path.
 var tpl = template.Must(template.ParseGlob("templates/*.html"))
 
-// Parses given Http Request |r| along with VideoJson object |videoJson|
-// and returns a URL to an image thumbnail of the video. HTTP Request |r|
-// can query parameters 'width' and 'height' to indicated desired size
-// of the image thumbnail.
-func GetImageUrl(r *http.Request, videoJson VideoJSON) string {
+// Parses given width/height specification along with VideoJson object |videoJson|
+// and returns a URL to an image thumbnail of the video. width/height can be
+// both be set to 0 to recover original full-resolution image.
+func GetImageUrl(width, height int, videoJson VideoJSON) string {
 	url := videoJson.Video.ImageUrl
-	// Add Height/Width params iff they were in original request
+	// Add Height/Width params iff they are non-zero.
 	url += "?"
-	width := r.FormValue("width")
 	addAmpersand := false
-	if strings.TrimSpace(width) != "" {
+	if width > 0 {
 		url += fmt.Sprintf("width=%s", width)
 		addAmpersand = true
 	}
-	height := r.FormValue("height")
-	if strings.TrimSpace(height) != "" {
+	if height > 0 {
 		if addAmpersand {
 			url += "&"
 		}
