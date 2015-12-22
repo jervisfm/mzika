@@ -10,8 +10,6 @@ import (
 	"strings"
 )
 
-// Add templates/* to search path.
-var tpl = template.Must(template.ParseGlob("templates/*.html"))
 
 // Parses given width/height specification along with VideoJson object |videoJson|
 // and returns a URL to an image thumbnail of the video. width/height can be
@@ -142,7 +140,8 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-
+	// Add templates/* to search path.
+	var tpl = template.Must(template.ParseGlob("templates/*.html"))
 	if err := tpl.ExecuteTemplate(w, "index.html", videoListing); err != nil {
 		fmt.Errorf("%v", err)
 	}
@@ -162,6 +161,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		Listing     VideoJSONListing
 		SearchQuery string
 	}{videoListing, searchQuery}
+	var tpl = template.Must(template.ParseGlob("templates/*.html"))
 	if err := tpl.ExecuteTemplate(w, "search.html", data); err != nil {
 		fmt.Errorf("%v", err)
 	}
