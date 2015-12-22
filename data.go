@@ -33,6 +33,11 @@ var videoListOrder = []string  {
 	"default",
 }
 
+const (
+	// Maximum # of video entities that can be loaded/returned in a single list call operation.
+	maxListSize = 200
+)
+
 // Loads json listing of the top Music Videos into go structs |output|
 func LoadTopVideoJSONListing() (output VideoJSONListing, err error) {
 	topVideosUrl := "https://api.vevo.com/mobile/v1/video/list.json?order=mostviewedthisweek&max=200"
