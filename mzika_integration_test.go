@@ -11,9 +11,10 @@ import (
 "github.com/jervisfm/mzika"
 )
 
+const (
+	vid = "uscmv1500002"
+)
 func TestGetVideoUrl(t *testing.T) {
-	vid := "uscmv1500002"
-	
 	url, err := mzika.GetVideoUrl(vid)
 	if err != nil {
 		// Test failed
@@ -23,6 +24,5 @@ func TestGetVideoUrl(t *testing.T) {
 	if len(url) <= 0 || !strings.HasPrefix(url, "http") {
 		t.Errorf("Url obtained is invalid (either empty/not http url). Url: '%v'", url)
 	}
-	
 }
 
