@@ -14,6 +14,7 @@ import (
 const (
 	vid = "uscmv1500002"
 )
+
 func TestGetVideoUrl(t *testing.T) {
 	url, err := mzika.GetVideoUrl(vid)
 	if err != nil {
