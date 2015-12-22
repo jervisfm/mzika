@@ -27,3 +27,15 @@ func TestGetVideoUrl(t *testing.T) {
 	}
 }
 
+func TestGetVideoFromId(t *testing.T) {
+	videoStruct, err := mzika.GetVideoFromId(vid)
+	if err != nil {
+		t.Errorf("Failed to load video metadata for video with id '%s', Error:", vid, err)
+	}
+
+	actual_vid := strings.ToLower(videoStruct.Video.Isrc)
+	if actual_vid != vid {
+		t.Errorf("Loaded Video does not match requested video. Expected %v but got %v", vid, actual_vid)
+	}
+	
+}
