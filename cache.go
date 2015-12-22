@@ -38,6 +38,7 @@ func CacheVideoJsonResponse(input VideoJSON, cacheKey string) (err error) {
 	// Try to determine if cache entry already exists
 	cachedData, ok := cacheStore[cacheKey]
 	if !ok {
+		println("Cache key no exist")
 		// Cache entry does not exist, so we should store it.
 		initializeCacheStore()
 		cacheStore[cacheKey] = cachedData
