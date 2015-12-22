@@ -1,3 +1,7 @@
+// This file is meant to expose useful functions in Mzika to be available
+// in Javascript.
+// We're putting the code in the main package because otherwise
+// gopherjs refuses to generate the (transpiled) Javascript code.
 package main
 import (
 	"fmt"
