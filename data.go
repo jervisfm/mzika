@@ -56,7 +56,6 @@ func loadURL(url string) (response string, err error) {
 	if err != nil {
 		return "", fmt.Errorf("Failed to Read All Data from URL: %s. Got Response Code: %s.", url, resp.Status)
 	}
-	println(string(body))
 	return string(body), err
 }
 

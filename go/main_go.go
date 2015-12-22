@@ -65,11 +65,15 @@ func main() {
 
 	// Go test code snippet
 
-	vid := "uscmv1500002"
-	url, err := mzika.GetVideoUrl(vid)
-	if err != nil {
-		println("Failure!", err)
-		return
+	for i:=0; i < 5; i++ { 
+		println("=======\n")
+		println("Iteration #", i)
+		vid := "uscmv1500002"
+		url, err := mzika.GetVideoUrl(vid)
+		if err != nil {
+			println("Failure!", err)
+			continue
+		}
+		fmt.Println(url)
 	}
-	fmt.Println(url)
 }
