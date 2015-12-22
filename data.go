@@ -12,6 +12,27 @@ import (
 	"net/url"
 )
 
+var videoListOrder = []string  {
+	"mostviewed",
+	"mostviewedtoday",
+	"mostviewedthisweek",
+	"mostviewedthismonth",
+	"mostviewedalltime",
+
+	"mostfavorited",
+	"mostfavoritedtoday",
+	"mostfavoritedthisweek",
+	"mostfavoritedthismonth",
+	"mostfavoritedalltime",
+
+	"mostrecent",
+	"random",
+	// Note: default is not an actual valid ordering keyword. It was used
+	// just so that the ordering is unspecified and so the default/natural
+	// ordering is used to sort the video json list.
+	"default",
+}
+
 // Loads json listing of the top Music Videos into go structs |output|
 func LoadTopVideoJSONListing() (output VideoJSONListing, err error) {
 	topVideosUrl := "https://api.vevo.com/mobile/v1/video/list.json?order=mostviewedthisweek&max=200"
@@ -19,6 +40,7 @@ func LoadTopVideoJSONListing() (output VideoJSONListing, err error) {
 	if err != nil {
 		err = fmt.Errorf("%v\n: Failed to fetch topvideoURL JSON", err)
 	}
+	println(videoListOrder)
 	return parseTopVideoJSONListing(jsonContent)
 }
 
