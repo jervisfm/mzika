@@ -136,7 +136,7 @@ func GetVideoRedirectUrl(input VideoJSON) (output string, err error) {
 // Renders the Home page which lists the current most popular videos.
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	videoListing, err := LoadTopVideoJSONListing()
+	videoListing, err := LoadTopVideoJSONListing(DefaultOrder)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
