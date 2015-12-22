@@ -45,18 +45,29 @@ func DecodeVideoJSON(input string, callback* js.Object) {
 	}()
 }
 
-func LoadTopVideoJSONListing(callback* js.Object) {
+func LoadTopVideoJSONListing(order string, page int, callback* js.Object) {
 	go func(){
-		listing_response, err := mzika.LoadTopVideoJSONListing()
+		listing_response, err := mzika.LoadTopVideoJSONListing(order, page)
 		if callback != nil {
 			callback.Invoke(listing_response, err)
 		}
 	}()
 }
 
-func LoadSearchedVideoJSONListing(query string, callback* js.Object) {
+
+func LoadTopVideoJSONListingDefault(callback* js.Object) {
+	go func(){
+		listing_response, err := mzika.LoadTopVideoJSONListing(mzika.DefaultOrder, mzika.FirstPage)
+		if callback != nil {
+			callback.Invoke(listing_response, err)
+		}
+	}()
+}
+
+
+func LoadSearchedVideoJSONListing(query string, page int, callback* js.Object) {
 	go func() {
-		listing_response, err := mzika.LoadSearchedVideoJSONListing(query)
+		listing_response, err := mzika.LoadSearchedVideoJSONListing(query, page)
 		if callback != nil {
 			callback.Invoke(listing_response, err)
 		}
@@ -75,6 +86,7 @@ func main() {
 		"getVideoFromId" : GetVideoFromId,
 
 		"loadTopVideoJSONListing" : LoadTopVideoJSONListing,
+		"loadTopVideoJSONListingDefault" : LoadTopVideoJSONListing,
 
 		"loadSearchedVideoJSONListing" : LoadSearchedVideoJSONListing, 
 		
