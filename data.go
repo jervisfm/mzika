@@ -13,7 +13,7 @@ import (
 )
 
 // Loads json listing of the top Music Videos into go structs |output|
-func loadTopVideoJSONListing() (output VideoJSONListing, err error) {
+func LoadTopVideoJSONListing() (output VideoJSONListing, err error) {
 	topVideosUrl := "https://api.vevo.com/mobile/v1/video/list.json?order=mostviewedthisweek&max=200"
 	jsonContent, err := loadURL(topVideosUrl)
 	if err != nil {
@@ -22,7 +22,7 @@ func loadTopVideoJSONListing() (output VideoJSONListing, err error) {
 	return parseTopVideoJSONListing(jsonContent)
 }
 
-func loadSearchedVideoJSONListing(searchString string) (output VideoJSONListing, err error) {
+func LoadSearchedVideoJSONListing(searchString string) (output VideoJSONListing, err error) {
 	searchStringUrlEncoded := url.QueryEscape(searchString)
 	searchUrlTemplate := "http://api.vevo.com/mobile/v1/search/videos.json?q=%s&max=30"
 	url := fmt.Sprintf(searchUrlTemplate, searchStringUrlEncoded)

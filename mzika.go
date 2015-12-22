@@ -136,7 +136,7 @@ func GetVideoRedirectUrl(input VideoJSON) (output string, err error) {
 // Renders the Home page which lists the current most popular videos.
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	videoListing, err := loadTopVideoJSONListing()
+	videoListing, err := LoadTopVideoJSONListing()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -152,7 +152,7 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	searchQuery := r.FormValue("q")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	videoListing, err := loadSearchedVideoJSONListing(searchQuery)
+	videoListing, err := LoadSearchedVideoJSONListing(searchQuery)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
