@@ -13,6 +13,10 @@ import (
 )
 
 const (
+	FirstPage = 0
+)
+
+const (
 	MostViewed =  "mostviewed"
 	MostViewedToday=  "mostviewedtoday"
 	MostViewedThisWeek = "mostviewedthisweek"
@@ -41,9 +45,11 @@ const (
 
 // Loads json listing of the top Music Videos into go structs |output|
 // |order| is a string that specifies ordering of the videos.
-func LoadTopVideoJSONListing(order string) (output VideoJSONListing, err error) {
-	topVideosUrlTemplate := "https://api.vevo.com/mobile/v1/video/list.json?order=%s&max=%d"
-	topVideosUrl := fmt.Sprintf(topVideosUrlTemplate, order, maxListSize)
+// |page| is the page of results. Value is 0-index based.
+func LoadTopVideoJSONListing(order string, page int) (output VideoJSONListing, err error) {
+	topVideosUrlTemplate := "https://api.vevo.com/mobile/v1/video/list.json?order=%s&max=%d&offset=%d"
+	pageOffset := page * maxListSize
+	topVideosUrl := fmt.Sprintf(topVideosUrlTemplate, order, maxListSize, pageOffset)
 	jsonContent, err := loadURL(topVideosUrl)
 	if err != nil {
 		err = fmt.Errorf("%v\n: Failed to fetch topvideoURL JSON", err)

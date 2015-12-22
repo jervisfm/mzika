@@ -42,7 +42,7 @@ func TestGetVideoFromId(t *testing.T) {
 
 
 func TestLoadTopVideoJSONListing(t *testing.T) {
-	response, err := mzika.LoadTopVideoJSONListing(mzika.DefaultOrder)
+	response, err := mzika.LoadTopVideoJSONListing(mzika.DefaultOrder, mzika.FirstPage)
 	if response.Success == false || err != nil {
 		t.Errorf("Loading top videos failed", err)
 	}
