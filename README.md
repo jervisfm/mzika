@@ -8,7 +8,7 @@ A Go Video Music package.
 As much as possible, a testing philosophy was followed in the development of this package. To that end, one can run the integration test which will verify that the core logic of the package is still working as expected:
 
 ```
-$ go test
+$ go test -v
 
 ```
 
