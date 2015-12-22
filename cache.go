@@ -29,18 +29,18 @@ func initializeCacheStore() {
 // using the key |cachekey|. This is so that the response can quickly
 // be looked up in the future. |r| is the Http request for the current session.
 func CacheVideoJsonResponse(input VideoJSON, cacheKey string) (err error) {
+	// Initialize cache store; this is a no-op if already initialized.
+	initializeCacheStore()
 	cacheKey = strings.ToLower(cacheKey)
-	cachedData := CachedVideoJson{
-		VideoId:  cacheKey,
-		Response: input,
-	}
 
 	// Try to determine if cache entry already exists
-	cachedData, ok := cacheStore[cacheKey]
+	_, ok := cacheStore[cacheKey]
 	if !ok {
-		println("Cache key no exist")
 		// Cache entry does not exist, so we should store it.
-		initializeCacheStore()
+		cachedData := CachedVideoJson{
+			VideoId:  cacheKey,
+			Response: input,
+		}
 		cacheStore[cacheKey] = cachedData
 	}
 	return nil
@@ -56,7 +56,6 @@ func GetCachedVideoResponse(videoid string) (found bool, response *VideoJSON, er
 	cachedData, ok := cacheStore[cacheKey]
 	if ok {
 		// Cached response found
-		// TODO(jervis): Figure out why cache response returned is currenyl empty.
 		return true, &cachedData.Response, nil
 	} else {
 		// No cached video response found.
