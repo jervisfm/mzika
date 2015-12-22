@@ -13,24 +13,24 @@ import (
 )
 
 const (
-	MostViewed =		"mostviewed",
-	MostViewedToday = "mostviewedtoday",
-	MostViewedThisWeek = "mostviewedthisweek",
-	MostViewedThisMonth = "mostviewedthismonth",
-	MostViewedAllTime = "mostviewedalltime",
+	MostViewed =  "mostviewed"
+	MostViewedToday=  "mostviewedtoday"
+	MostViewedThisWeek = "mostviewedthisweek"
+	MostViewedThisMonth = "mostviewedthismonth"
+	MostViewedAllTime = "mostviewedalltime"
 
-	MostFavorited = "mostfavorited",
-	MostFavoritedToday = "mostfavoritedtoday",
-	MostFavoritedThisWeek = "mostfavoritedthisweek",
-	MostFavoritedThisMonth = "mostfavoritedthismonth",
-	MostFavoritedAllTime = "mostfavoritedalltime",
+	MostFavorited = "mostfavorited"
+	MostFavoritedToday = "mostfavoritedtoday"
+	MostFavoritedThisWeek = "mostfavoritedthisweek"
+	MostFavoritedThisMonth = "mostfavoritedthismonth"
+	MostFavoritedAllTime = "mostfavoritedalltime"
 
-	MostRecent = "mostrecent",
-	RandomOrder = "random",
+	MostRecent = "mostrecent"
+	RandomOrder = "random"
 	// Note: default is not an actual valid ordering keyword. It was used
 	// just so that the ordering is unspecified and so the default/natural
 	// ordering is used to sort the video json list.
-	DefaultOrder = "default",
+	DefaultOrder = "default"
 )
 
 const (
@@ -39,8 +39,10 @@ const (
 )
 
 // Loads json listing of the top Music Videos into go structs |output|
-func LoadTopVideoJSONListing() (output VideoJSONListing, err error) {
-	topVideosUrl := "https://api.vevo.com/mobile/v1/video/list.json?order=mostviewedthisweek&max=200"
+// |order| is a string that specifies ordering of the videos.
+func LoadTopVideoJSONListing(order string) (output VideoJSONListing, err error) {
+	topVideosUrlTemplate := "https://api.vevo.com/mobile/v1/video/list.json?order=%s&max=%d"
+	topVideosUrl := fmt.Sprintf("https://api.vevo.com/mobile/v1/video/list.json?order=%s&max=%d", order, maxListSize)
 	jsonContent, err := loadURL(topVideosUrl)
 	if err != nil {
 		err = fmt.Errorf("%v\n: Failed to fetch topvideoURL JSON", err)
