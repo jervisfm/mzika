@@ -65,7 +65,7 @@ func main() {
 
 	// Go test code snippet
 
-	for i:=0; i < 5; i++ { 
+	for i:=0; i < 3; i++ { 
 		println("=======\n")
 		println("Iteration #", i)
 		vid := "uscmv1500002"
