@@ -12,26 +12,26 @@ import (
 	"net/url"
 )
 
-var videoListOrder = []string  {
-	"mostviewed",
-	"mostviewedtoday",
-	"mostviewedthisweek",
-	"mostviewedthismonth",
-	"mostviewedalltime",
+const (
+	mostViewed =		"mostviewed",
+	mostViewedToday = "mostviewedtoday",
+	mostViewedThisWeek = "mostviewedthisweek",
+	mostViewedThisMonth = "mostviewedthismonth",
+	mostViewedAllTime = "mostviewedalltime",
 
-	"mostfavorited",
-	"mostfavoritedtoday",
-	"mostfavoritedthisweek",
-	"mostfavoritedthismonth",
-	"mostfavoritedalltime",
+	mostFavorited = "mostfavorited",
+	mostFavoritedToday = "mostfavoritedtoday",
+	mostFavoritedThisWeek = "mostfavoritedthisweek",
+	mostFavoritedThisMonth = "mostfavoritedthismonth",
+	mostFavoritedAllTime = "mostfavoritedalltime",
 
-	"mostrecent",
-	"random",
+	mostRecent = "mostrecent",
+	random = "random",
 	// Note: default is not an actual valid ordering keyword. It was used
 	// just so that the ordering is unspecified and so the default/natural
 	// ordering is used to sort the video json list.
-	"default",
-}
+	defaultOrder = "default",
+)
 
 const (
 	// Maximum # of video entities that can be loaded/returned in a single list call operation.
@@ -45,7 +45,6 @@ func LoadTopVideoJSONListing() (output VideoJSONListing, err error) {
 	if err != nil {
 		err = fmt.Errorf("%v\n: Failed to fetch topvideoURL JSON", err)
 	}
-	println(videoListOrder)
 	return parseTopVideoJSONListing(jsonContent)
 }
 
