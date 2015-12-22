@@ -58,6 +58,7 @@ func GetVideoFromId(vid string) (output VideoJSON, err error) {
 	cacheHit, cacheResponse, err := GetCachedVideoResponse(vid)
 	if err == nil {
 		if cacheHit {
+			println("Gota cache hit, ", cacheResponse)
 			output = *cacheResponse
 			err = nil
 			return

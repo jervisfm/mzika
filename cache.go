@@ -55,6 +55,7 @@ func GetCachedVideoResponse(videoid string) (found bool, response *VideoJSON, er
 	cachedData, ok := cacheStore[cacheKey]
 	if ok {
 		// Cached response found
+		// TODO(jervis): Figure out why cache response returned is currenyl empty.
 		return true, &cachedData.Response, nil
 	} else {
 		// No cached video response found.
