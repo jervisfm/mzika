@@ -13,20 +13,20 @@ import (
 )
 
 // Loads json listing of the top Music Videos into go structs |output|
-func loadTopVideoJSONListing(r *http.Request) (output VideoJSONListing, err error) {
+func loadTopVideoJSONListing() (output VideoJSONListing, err error) {
 	topVideosUrl := "https://api.vevo.com/mobile/v1/video/list.json?order=mostviewedthisweek&max=200"
-	jsonContent, err := loadURL(r, topVideosUrl)
+	jsonContent, err := loadURL(topVideosUrl)
 	if err != nil {
 		err = fmt.Errorf("%v\n: Failed to fetch topvideoURL JSON", err)
 	}
 	return parseTopVideoJSONListing(jsonContent)
 }
 
-func loadSearchedVideoJSONListing(r *http.Request, searchString string) (output VideoJSONListing, err error) {
+func loadSearchedVideoJSONListing(searchString string) (output VideoJSONListing, err error) {
 	searchStringUrlEncoded := url.QueryEscape(searchString)
 	searchUrlTemplate := "http://api.vevo.com/mobile/v1/search/videos.json?q=%s&max=30"
 	url := fmt.Sprintf(searchUrlTemplate, searchStringUrlEncoded)
-	jsonContent, _ := loadURL(r, url)
+	jsonContent, _ := loadURL(url)
 	if err != nil {
 		err = fmt.Errorf("%v\n: Failed to fetch Searched JSON Url", err)
 	}
@@ -35,15 +35,15 @@ func loadSearchedVideoJSONListing(r *http.Request, searchString string) (output 
 
 // Takes given |vid| video identifier string and retrieves the JSON metadata associated with
 // the specific video into |json|.
-func loadVideoJSON(r *http.Request, vid string) (json string, err error) {
+func loadVideoJSON(vid string) (json string, err error) {
 	videoJsonURLTemplate := "http://videoplayer.vevo.com/VideoService/AuthenticateVideo?isrc=%s"
 	url := fmt.Sprintf(videoJsonURLTemplate, vid)
-	return loadURL(r, url)
+	return loadURL(url)
 }
 
 // Loads given |url| string and returns a |response| with the output. |url| should contain
 // an appropriate protocol (e.g "http://www.msn.com")
-func loadURL(r *http.Request, url string) (response string, err error) {
+func loadURL(url string) (response string, err error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		return "", fmt.Errorf("Failed to fetch URL: %s. Got Response Code: %s", url, resp.Status)

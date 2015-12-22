@@ -79,7 +79,7 @@ func GetVideoFromId(r *http.Request, vid string) (output VideoJSON, err error) {
 	// TODO(jervis):
 	// Consider using AppEngine Datastore as a cache so that
 	// we don't repeatedly look up the same URLs over and over.
-	resp, err := loadVideoJSON(r, vid)
+	resp, err := loadVideoJSON(vid)
 	if err != nil {
 		return output, err
 	}
@@ -139,7 +139,7 @@ func GetVideoRedirectUrl(input VideoJSON) (output string, err error) {
 // Renders the Home page which lists the current most popular videos.
 func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	videoListing, err := loadTopVideoJSONListing(r)
+	videoListing, err := loadTopVideoJSONListing()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -154,7 +154,7 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	searchQuery := r.FormValue("q")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	videoListing, err := loadSearchedVideoJSONListing(r, searchQuery)
+	videoListing, err := loadSearchedVideoJSONListing(searchQuery)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
