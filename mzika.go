@@ -75,8 +75,8 @@ func GetVideoFromId(vid string) (output VideoJSON, err error) {
 	// Fetch Video JSON
 	//
 	// TODO(jervis):
-	// Consider using AppEngine Datastore as a cache so that
-	// we don't repeatedly look up the same URLs over and over.
+	// Consider using HTML5 Persistent localstorage as a cache so that
+	// we don't repeatedly look up the same URLs over and over across sessions.
 	resp, err := loadVideoJSON(vid)
 	if err != nil {
 		return output, err
