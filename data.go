@@ -44,9 +44,11 @@ func loadVideoJSON(vid string) (json string, err error) {
 // Loads given |url| string and returns a |response| with the output. |url| should contain
 // an appropriate protocol (e.g "http://www.msn.com")
 func loadURL(url string) (response string, err error) {
+	println("Loading url: ", url)
 	resp, err := http.Get(url)
 	if err != nil {
-		return "", fmt.Errorf("Failed to fetch URL: %s. Got Response : %s", url, resp.Status)
+		println("url fail")
+		return "", fmt.Errorf("Failed to fetch URL: %s. Got Response : %s", url, resp)
 	}
 	// Ensure that we close the reading handle upon function exit.
 	defer resp.Body.Close()
@@ -54,6 +56,7 @@ func loadURL(url string) (response string, err error) {
 	if err != nil {
 		return "", fmt.Errorf("Failed to Read All Data from URL: %s. Got Response Code: %s.", url, resp.Status)
 	}
+	println(string(body))
 	return string(body), err
 }
 
