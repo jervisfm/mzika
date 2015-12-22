@@ -50,7 +50,7 @@ func TestLoadTopVideoJSONListing(t *testing.T) {
 
 func TestLoadSearchedVideoJSONListing(t *testing.T) {
 	query := "prokoto"
-	response, err := mzika.LoadSearchedVideoJSONListing(query)
+	response, err := mzika.LoadSearchedVideoJSONListing(query, mzika.FirstPage)
 	if response.Success == false || err != nil{
 		t.Errorf("Loading Results for search query '%s' failed", query, err)
 	}

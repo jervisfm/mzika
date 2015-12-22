@@ -57,10 +57,14 @@ func LoadTopVideoJSONListing(order string, page int) (output VideoJSONListing, e
 	return parseTopVideoJSONListing(jsonContent)
 }
 
-func LoadSearchedVideoJSONListing(searchString string) (output VideoJSONListing, err error) {
+// Loads Json of videos that match the supplied |searchString|
+// |searchString| video query to perform.
+// |page| is the page of the result. Value is 0-index based.
+func LoadSearchedVideoJSONListing(searchString string, page int) (output VideoJSONListing, err error) {
 	searchStringUrlEncoded := url.QueryEscape(searchString)
-	searchUrlTemplate := "http://api.vevo.com/mobile/v1/search/videos.json?q=%s&max=30"
-	url := fmt.Sprintf(searchUrlTemplate, searchStringUrlEncoded)
+	searchUrlTemplate := "http://api.vevo.com/mobile/v1/search/videos.json?q=%s&max=%d&offset=%d"
+	pageOffset := page * maxListSize
+	url := fmt.Sprintf(searchUrlTemplate, searchStringUrlEncoded, maxListSize, pageOffset)
 	jsonContent, _ := loadURL(url)
 	if err != nil {
 		err = fmt.Errorf("%v\n: Failed to fetch Searched JSON Url", err)

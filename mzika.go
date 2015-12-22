@@ -152,7 +152,7 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	searchQuery := r.FormValue("q")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	videoListing, err := LoadSearchedVideoJSONListing(searchQuery)
+	videoListing, err := LoadSearchedVideoJSONListing(searchQuery, FirstPage)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
