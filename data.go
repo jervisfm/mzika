@@ -26,7 +26,7 @@ const (
 	MostFavoritedAllTime = "mostfavoritedalltime",
 
 	MostRecent = "mostrecent",
-	Random = "random",
+	RandomOrder = "random",
 	// Note: default is not an actual valid ordering keyword. It was used
 	// just so that the ordering is unspecified and so the default/natural
 	// ordering is used to sort the video json list.
