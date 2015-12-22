@@ -13,24 +13,24 @@ import (
 )
 
 const (
-	mostViewed =		"mostviewed",
-	mostViewedToday = "mostviewedtoday",
-	mostViewedThisWeek = "mostviewedthisweek",
-	mostViewedThisMonth = "mostviewedthismonth",
-	mostViewedAllTime = "mostviewedalltime",
+	MostViewed =		"mostviewed",
+	MostViewedToday = "mostviewedtoday",
+	MostViewedThisWeek = "mostviewedthisweek",
+	MostViewedThisMonth = "mostviewedthismonth",
+	MostViewedAllTime = "mostviewedalltime",
 
-	mostFavorited = "mostfavorited",
-	mostFavoritedToday = "mostfavoritedtoday",
-	mostFavoritedThisWeek = "mostfavoritedthisweek",
-	mostFavoritedThisMonth = "mostfavoritedthismonth",
-	mostFavoritedAllTime = "mostfavoritedalltime",
+	MostFavorited = "mostfavorited",
+	MostFavoritedToday = "mostfavoritedtoday",
+	MostFavoritedThisWeek = "mostfavoritedthisweek",
+	MostFavoritedThisMonth = "mostfavoritedthismonth",
+	MostFavoritedAllTime = "mostfavoritedalltime",
 
-	mostRecent = "mostrecent",
-	random = "random",
+	MostRecent = "mostrecent",
+	Random = "random",
 	// Note: default is not an actual valid ordering keyword. It was used
 	// just so that the ordering is unspecified and so the default/natural
 	// ordering is used to sort the video json list.
-	defaultOrder = "default",
+	DefaultOrder = "default",
 )
 
 const (
