@@ -39,3 +39,19 @@ func TestGetVideoFromId(t *testing.T) {
 	}
 	
 }
+
+
+func TestLoadTopVideoJSONListing(t *testing.T) {
+	response, err := mzika.LoadTopVideoJSONListing()
+	if response.Success == false || err != nil {
+		t.Errorf("Loading top videos failed", err)
+	}
+}
+
+func TestLoadSearchedVideoJSONListing(t *testing.T) {
+	query := "prokoto"
+	response, err := mzika.LoadSearchedVideoJSONListing(query)
+	if response.Success == false || err != nil{
+		t.Errorf("Loading Results for search query '%s' failed", query, err)
+	}
+}
