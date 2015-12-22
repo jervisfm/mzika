@@ -17,7 +17,5 @@ func main() {
 		"getVideoFromId" : mzika.GetVideoFromId,
 	})
 	fmt.Println("Hello, playground")
-	_,_ = mzika.DecodeVideoJSON("")
-	js.Global.Call("alert", "Hello, JavaScript")
-	println("Hello, JS console")
+	//println("Hello, JS console")
 }
