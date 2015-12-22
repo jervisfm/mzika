@@ -10,6 +10,12 @@ import (
 )
 
 func main() {
+	// Specify the method that we want to make available to Javascript
+	js.Global.Set("mzika", map[string]interface{} {
+		"decodeVideoJson": mzika.DecodeVideoJSON,
+		"getVideoUrl" : mzika.GetVideoUrl,
+		"getVideoFromId" : mzika.GetVideoFromId,
+	})
 	fmt.Println("Hello, playground")
 	_,_ = mzika.DecodeVideoJSON("")
 	js.Global.Call("alert", "Hello, JavaScript")
