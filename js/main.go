@@ -86,7 +86,7 @@ func main() {
 		"getVideoFromId" : GetVideoFromId,
 
 		"loadTopVideoJSONListing" : LoadTopVideoJSONListing,
-		"loadTopVideoJSONListingDefault" : LoadTopVideoJSONListing,
+		"loadTopVideoJSONListingDefault" : LoadTopVideoJSONListingDefault,
 
 		"loadSearchedVideoJSONListing" : LoadSearchedVideoJSONListing, 
 		
