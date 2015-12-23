@@ -54,6 +54,12 @@ func LoadTopVideoJSONListing(order string, page int, callback* js.Object) {
 	}()
 }
 
+func CreateLoadTopVideoJSONListingFunction(order string) func(page int, callback* js.Object) {
+	return func(page int, callback* js.Object) {
+		LoadTopVideoJSONListing(order, page, callback)
+	}
+
+}
 
 func LoadTopVideoJSONListingDefault(callback* js.Object) {
 	go func(){
@@ -74,6 +80,17 @@ func LoadSearchedVideoJSONListing(query string, page int, callback* js.Object) {
 	}()
 }
 
+
+func LoadSearchedVideoJSONListingDefault(query string, callback* js.Object) {
+	go func() {
+		listing_response, err := mzika.LoadSearchedVideoJSONListing(query, mzika.FirstPage)
+		if callback != nil {
+			callback.Invoke(listing_response, err)
+		}
+	}()
+}
+
+
 func main() {
 	// Specify the method that we want to make available to Javascript
 	// Our convention: all the method re-defined here are async by default (i.e. use goroutines). Methods under mzika.* can be blocking.
@@ -88,7 +105,25 @@ func main() {
 		"loadTopVideoJSONListing" : LoadTopVideoJSONListing,
 		"loadTopVideoJSONListingDefault" : LoadTopVideoJSONListingDefault,
 
+		"loadTopVideoJSONListingMostRecent" : CreateLoadTopVideoJSONListingFunction(mzika.MostRecent),
+		"loadTopVideoJSONListingRandom" : CreateLoadTopVideoJSONListingFunction(mzika.RandomOrder),
+
+		"loadTopVideoJSONListingMostViewed" : CreateLoadTopVideoJSONListingFunction(mzika.MostViewed),
+		"loadTopVideoJSONListingMostViewedToday" : CreateLoadTopVideoJSONListingFunction(mzika.MostViewedToday),
+		"loadTopVideoJSONListingMostViewedThisWeek" : CreateLoadTopVideoJSONListingFunction(mzika.MostViewedThisWeek),
+		"loadTopVideoJSONListingMostViewedThisMonth" : CreateLoadTopVideoJSONListingFunction(mzika.MostViewedThisMonth),
+		"loadTopVideoJSONListingMostViewedAllTime" : CreateLoadTopVideoJSONListingFunction(mzika.MostViewedAllTime),
+
+
+		"loadTopVideoJSONListingMostFavorited" : CreateLoadTopVideoJSONListingFunction(mzika.MostFavorited),
+		"loadTopVideoJSONListingMostFavoritedToday" : CreateLoadTopVideoJSONListingFunction(mzika.MostFavoritedToday),
+		"loadTopVideoJSONListingMostFavoritedThisWeek" : CreateLoadTopVideoJSONListingFunction(mzika.MostFavoritedThisWeek),
+		"loadTopVideoJSONListingMostFavoritedThisMonth" : CreateLoadTopVideoJSONListingFunction(mzika.MostFavoritedThisMonth),
+		"loadTopVideoJSONListingMostFavoritedAllTime" : CreateLoadTopVideoJSONListingFunction(mzika.MostFavoritedAllTime),
+
+
 		"loadSearchedVideoJSONListing" : LoadSearchedVideoJSONListing, 
+"loadSearchedVideoJSONListingDefault" : LoadSearchedVideoJSONListingDefault,
 		
 	})
 	fmt.Println("Hello, playground")
